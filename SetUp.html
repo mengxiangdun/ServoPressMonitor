@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<div id="container" style="height: 100%"></div>
+	<script src="external/jquery/jquery.js"></script>
+	<script src="jquery-ui.js"></script>
+	<script src="echarts.js"></script>
+	<title>Servo Press Monitor</title>
+	<link href="jquery-ui.css" rel="stylesheet">
+	<style>
+	body{
+		font-family: "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	select {
+		width: 200px;
+	}
+	</style>
+</head>
+<body>
+
+<h1>Welcome to jQuery UI!</h1>
+<table border="1">
+	<tr>
+		<td><p>CH</p></td>
+		<td>1</td>
+		<td>2</td>
+		<td>4</td>
+	</tr>
+	<tr>
+		<td>Header</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP001 CHANNEL SPAN SELECT</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP002 CHANNEL SPAN</td>
+		<td><input id="ch1_channel_span"/></td>
+		<td><input id="ch2_channel_span"/></td>
+		<td><input id="ch4_channel_span"/></td>
+	</tr>
+	<tr>
+		<td>SP003 SCALE ADJUST</td>
+		<td><input id="ch1_scale_adjust"/></td>
+		<td><input id="ch2_scale_adjust"/></td>
+		<td><input id="ch4_scale_adjust"/></td>
+	</tr>
+	<tr>
+		<td>SP101 OFFSET LOAD</td>
+		<td><input id="ch1_offset_load"/></td>
+		<td><input id="ch2_offset_load"/></td>
+		<td><input id="ch4_offset_load"/></td>
+	</tr>
+	<tr>
+		<td>SP201 PRESS CURVE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP301 STAGE SELECT</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP302 STAGE PAUSE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP303 OK FINISH FEED BACK</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP304 NG FINISH FEED BACK</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>FEED STAGE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP501 THRESHOLD LOAD</td>
+		<td><input id="ch1_threshold_load"/></td>
+		<td><input id="ch2_threshold_load"/></td>
+		<td><input id="ch4_threshold_load"/></td>
+	</tr>
+	<tr>
+		<td>SP502 FEED STAGE LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP503 FEED STAGE UPPER LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP504 FEED STAGE LOW LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP505 FEED STAGE HIGH SPEED POSITION</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP506 FEED STAGE HIGH SPEED</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP507 FEED STAGE MID SPEED</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP508 FEED STAGE UP SLOPE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP509 FEED STAGE DOWN SLOPE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP510 FEED STAGE MIN TIME</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>PRESS STAGE</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP601 PRESSING METHOD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP602 PRESS STAGE TARGET LOAD</td>
+		<td><input id="ch1_press_stage_target_load"/></td>
+		<td><input id="ch2_press_stage_target_load"/></td>
+		<td><input id="ch4_press_stage_target_load"/></td>
+	</tr>
+	<tr>
+		<td>SP603 PRESS STAGE UPPER LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP604 PRESS STAGE LOWER LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>SP605 SNUG LOAD</td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+
+
+</table>
+
+<script type="text/javascript">
+    var PressProcess=function(){
+        this.ch_index=1;
+        this.channel_span=100;
+        this.scale_adjust=0;
+        this.offset_load=0;
+    }
+    function CollectData(var ch) {
+		var press_1=new PressProcess();
+		press_1.ch_index=ch;
+		press_1.channel_span=document.getElementById("ch1_channel_span").value;
+		press_1.scale_adjust=document.getElementById("ch1_scale_adjust").value;
+		press_1.offset_load=document.getElementById("ch1_offset_load").value;
+    }
+</script>
+
+
+
+
+</body>
+</html>
