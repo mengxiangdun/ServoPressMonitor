@@ -17,7 +17,6 @@
         <counts>
           <entry key="project.closed" value="7" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.17" value="1" />
@@ -25,7 +24,7 @@
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -93,13 +92,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PressSetup.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="425">
               <caret line="436" lean-forward="true" selection-start-line="436" selection-end-line="436" />
+=======
+            <state relative-caret-position="114">
+              <caret line="391" column="5" lean-forward="true" selection-start-line="391" selection-start-column="5" selection-end-line="391" selection-end-column="5" />
+>>>>>>> parent of b2dfda0... Del QQQQQQ
               <folding>
                 <element signature="n#table#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="e#9701#10163#0" />
                 <element signature="e#10194#10571#0" />
                 <element signature="e#10604#10914#0" />
-                <element signature="e#11254#12871#0" />
                 <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
               </folding>
             </state>
@@ -109,7 +113,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PressMonitor.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6156">
+            <state relative-caret-position="416">
               <caret line="341" column="62" selection-start-line="341" selection-start-column="62" selection-end-line="341" selection-end-column="62" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#head#0;n#html#0;n#!!top" expanded="true" />
@@ -120,6 +124,8 @@
                 <element signature="n#style#0;n#div#0;n#div#0;n#fieldset#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#p#0;n#div#0;n#div#0;n#fieldset#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#script#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="e#7615#8852#0" />
+                <element signature="e#9974#10735#0" />
                 <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
               </folding>
             </state>
@@ -146,9 +152,6 @@
       <replace>&lt;/cmd&gt;</replace>
     </replaceStrings>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -160,8 +163,8 @@
         <option value="$PROJECT_DIR$/ServoPressorCmdList.xml" />
         <option value="$PROJECT_DIR$/../../server_test/plan.xml" />
         <option value="$PROJECT_DIR$/Pressor.html" />
-        <option value="$PROJECT_DIR$/PressMonitor.html" />
         <option value="$PROJECT_DIR$/PressSetup.html" />
+        <option value="$PROJECT_DIR$/PressMonitor.html" />
       </list>
     </option>
   </component>
@@ -177,12 +180,12 @@
     <option name="width" value="1992" />
     <option name="height" value="1450" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -194,7 +197,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -202,7 +204,6 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -249,13 +250,21 @@
       <workItem from="1540464997300" duration="2309000" />
       <workItem from="1540540484188" duration="3607000" />
       <workItem from="1540548881536" duration="7963000" />
+<<<<<<< HEAD
       <workItem from="1540556953476" duration="7596000" />
       <workItem from="1540626947841" duration="1165000" />
+=======
+      <workItem from="1540556953476" duration="6652000" />
+>>>>>>> parent of b2dfda0... Del QQQQQQ
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="100337000" />
+=======
+    <option name="totallyTimeSpent" value="98228000" />
+>>>>>>> parent of b2dfda0... Del QQQQQQ
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1293" height="773" extended-state="6" />
@@ -344,6 +353,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/3d.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1577">
+          <caret line="83" column="7" selection-start-line="7" selection-start-column="6" selection-end-line="83" selection-end-column="7" />
+          <folding>
+            <element signature="n#script#1;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Pressor.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
@@ -375,19 +394,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/3d.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1577">
-          <caret line="83" column="7" selection-start-line="7" selection-start-column="6" selection-end-line="83" selection-end-column="7" />
-          <folding>
-            <element signature="n#script#1;n#html#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PressMonitor.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6156">
+        <state relative-caret-position="416">
           <caret line="341" column="62" selection-start-line="341" selection-start-column="62" selection-end-line="341" selection-end-column="62" />
           <folding>
             <element signature="n#style#0;n#div#0;n#head#0;n#html#0;n#!!top" expanded="true" />
@@ -398,6 +407,8 @@
             <element signature="n#style#0;n#div#0;n#div#0;n#fieldset#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#p#0;n#div#0;n#div#0;n#fieldset#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#script#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="e#7615#8852#0" />
+            <element signature="e#9974#10735#0" />
             <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
           </folding>
         </state>
@@ -405,13 +416,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PressSetup.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="425">
           <caret line="436" lean-forward="true" selection-start-line="436" selection-end-line="436" />
+=======
+        <state relative-caret-position="114">
+          <caret line="391" column="5" lean-forward="true" selection-start-line="391" selection-start-column="5" selection-end-line="391" selection-end-column="5" />
+>>>>>>> parent of b2dfda0... Del QQQQQQ
           <folding>
             <element signature="n#table#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="e#9701#10163#0" />
             <element signature="e#10194#10571#0" />
             <element signature="e#10604#10914#0" />
-            <element signature="e#11254#12871#0" />
             <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
           </folding>
         </state>
