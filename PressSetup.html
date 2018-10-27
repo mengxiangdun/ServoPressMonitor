@@ -333,6 +333,31 @@
     var pressList=[];
     var serverIP="ws://127.0.0.1:5866";
 
+    var SetupElement=function (ch,cmdNum,cmdName,paraName,paraNmae_abra) {
+        // this.CH=1;
+        // this.cmdNum=1;
+        // this.cmdName="MoveEAP";
+        // this.paraName="pos";
+        // this.paraName_abra="pos";
+        this.CH=ch;
+        this.cmdNum=cmdNum;
+        this.cmdName=cmdName;
+        this.paraName=paraName;
+        this.paraName_abra=paraNmae_abra;
+
+    }
+    var setupList=[];
+    function GetSetupList() {
+        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","pos","pos");
+        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","vel","v");
+        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","pos","pos");
+        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","vel","v");
+    }
+
+    GetSetupList();
+    console.log(setupList[setupList.length-1].paraName);
+
+
     var PressProcess=function(){
         this.cmdList=[];
         this.ch_index=1;
@@ -352,6 +377,18 @@
             "dec":-0.3,
             "ab":0
         };
+        this.MoveEAP_Dic={
+            "begin_pos":0.1,
+            "pos":0.1,
+            "vel":0.02,
+            "acc":0.3,
+            "dec":-0.3,
+            "ab":0
+        }
+        this.MoveEA_dic={
+            "s":15,
+            "time":15,
+        }
     }
 
     function CollectData(ch) {
@@ -391,7 +428,6 @@
         SendCmd("2&1&0&0&0&GetXml --check_none");
     }
     var xmlDoc;
-
     function GetXmlDoc(data){
         console.log(data);
         var parser=new DOMParser();
@@ -399,8 +435,27 @@
         var CH_list=xmlDoc.getElementsByTagName("CmdList");
         //console.log("ch no:" + CH_list.length);
         for (var i=0;i<CH_list.length;i++){
-            var pressProcess_1=new PressProcess();
             var cmdList=CH_list[i].getElementsByTagName("cmd");
+            for (var j=0;j<setupList.length;j++){
+                //获得命令
+                var cmd_toSet=cmdList[setupList[j].cmdNum-1].childNodes[0].nodeValue;
+                //解析命令得到参数值
+                var para_value;
+                var cmd_paraList=cmd_toSet.split(" ");
+                for (var k = 0; k < cmd_paraList.length;k++){
+                    if (cmd_paraList[k].indexOf("--"+setupList[j].paraName+"=")>-1 || cmd_paraList[k].indexOf("-"+setupList[j].paraName_abra+"=")>-1){
+                        para_value=cmd_paraList[k].split("=")[1];
+                    }
+                }
+                //生成UI并赋值
+                var ui_id="ch"+(i+1).toString()+"_"+setupList[j].cmdNum+"_"+setupList[j].cmdName+"_"+setupList[j].paraName;
+
+
+            }
+
+
+            var pressProcess_1=new PressProcess();
+
             for (var j=0;j<cmdList.length;j++){
                 pressProcess_1.cmdList[j]=cmdList[j].childNodes[0].nodeValue;
                 //console.log(pressProcess_1.cmdList[j]);
@@ -417,9 +472,9 @@
                         }
                     }
                     pressProcess_1.cmdList[j]="moveEAP";
-		            if(pressProcess_1.dic["pos"]<0){
-					pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
-		                }
+                    if(pressProcess_1.dic["pos"]<0){
+                        pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
+                    }
                 }
             }
             pressList[i]=pressProcess_1;
@@ -428,10 +483,44 @@
         console.log((new XMLSerializer()).serializeToString(xmlDoc));
     }
 
+    // function GetXmlDoc(data){
+    //     console.log(data);
+    //     var parser=new DOMParser();
+    //     xmlDoc=parser.parseFromString(data,"text/xml");
+    //     var CH_list=xmlDoc.getElementsByTagName("CmdList");
+    //     //console.log("ch no:" + CH_list.length);
+    //     for (var i=0;i<CH_list.length;i++){
+    //         var pressProcess_1=new PressProcess();
+    //         var cmdList=CH_list[i].getElementsByTagName("cmd");
+    //         for (var j=0;j<cmdList.length;j++){
+    //             pressProcess_1.cmdList[j]=cmdList[j].childNodes[0].nodeValue;
+    //             //console.log(pressProcess_1.cmdList[j]);
+    //             if (pressProcess_1.cmdList[j].indexOf("moveEAP")>-1){
+    //                 //console.log("find moveEA");
+    //                 var para_list=pressProcess_1.cmdList[j].split(" ");
+    //                 for (var k=0;k<para_list.length;k++){
+    //                     //console.log(k);
+    //                     if (para_list[k].indexOf("--")>-1){
+    //                         var str_list=para_list[k].split("=");
+    //                         //console.log(str_list[0]+"---"+str_list[1]);
+    //                         var key=str_list[0].replace("--","");
+    //                         pressProcess_1.dic[key]=str_list[1];
+    //                     }
+    //                 }
+    //                 pressProcess_1.cmdList[j]="moveEAP";
+	// 	            if(pressProcess_1.dic["pos"]<0){
+	// 				pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
+	// 	                }
+    //             }
+    //         }
+    //         pressList[i]=pressProcess_1;
+    //         UpdateUIData(i);
+    //     }
+    //     console.log((new XMLSerializer()).serializeToString(xmlDoc));
+    // }
+
 
     document.getElementById("saveXml").onclick= function() {
-
-
 
          for (var i=0;i<3;i++){
              CollectData(i);
