@@ -16,22 +16,30 @@
 <button id="getXml" >Get Configuration</button>
 <button id="saveXml">Save & Run</button>
 
-<table id="InputTable" border="1">
+<table id="InputTable_Temp" border="1" style="width: 600px">
+    <tr bgcolor="#ffe4c4">
+        <td style="width: 40%">CH</td>
+        <td style="width: 20%">1</td>
+        <td style="width: 20%">2</td>
+        <td style="width: 20%">4</td>
+    </tr>
+</table>
+<table id="InputTable" border="1" style="width:600px">
     <tr>
-        <td><p>CH</p></td>
-        <td>1</td>
-        <td>2</td>
-        <td>4</td>
+        <td style="width: 40%">CH</td>
+        <td style="width: 20%">1</td>
+        <td style="width: 20%">2</td>
+        <td style="width: 20%">4</td>
     </tr>
     <tr bgcolor="#ffe4c4">
-        <td>Header</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td style="width: 40%">Header</td>
+        <td style="width: 20%"></td>
+        <td style="width: 20%"></td>
+        <td style="width: 20%"></td>
     </tr>
     <tr>
         <td>SP000 PRESS SCALE</td>
-        <td><input id="ch1_s"/></td>
+        <td><input id="ch1_s" style="width: auto"/></td>
         <td><input id="ch2_s"/></td>
         <td><input id="ch3_s"/></td>
     </tr>
@@ -330,245 +338,127 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var pressList=[];
+    $("#InputTable_Temp").hide();
+    var xmlDoc;
+    var setupList=[];
     var serverIP="ws://127.0.0.1:5866";
 
-    var SetupElement=function (ch,cmdNum,cmdName,paraName,paraNmae_abra) {
-        // this.CH=1;
-        // this.cmdNum=1;
-        // this.cmdName="MoveEAP";
-        // this.paraName="pos";
-        // this.paraName_abra="pos";
+    var SetupElement=function (ch,cmdNum,cmdName,paraName,paraNmae_abra,processName) {
+
         this.CH=ch;
         this.cmdNum=cmdNum;
         this.cmdName=cmdName;
         this.paraName=paraName;
         this.paraName_abra=paraNmae_abra;
+        this.processName=processName;
 
     }
-    var setupList=[];
+
     function GetSetupList() {
-        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","pos","pos");
-        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","vel","v");
-        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","pos","pos");
-        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","vel","v");
+        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","pos","pos","FEED DOWN");
+        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","acc","acc","FEED DOWN");
+        setupList[setupList.length]=new SetupElement(1,17,"MoveEAP","vel","v","FEED DOWN");
+        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","pos","pos","FEED UP");
+        setupList[setupList.length]=new SetupElement(1,18,"MoveEAP","vel","v","FEED UP");
     }
 
     GetSetupList();
-    console.log(setupList[setupList.length-1].paraName);
 
-
-    var PressProcess=function(){
-        this.cmdList=[];
-        this.ch_index=1;
-        this.channel_span=100;
-        this.scale_adjust=0;
-        this.offset_load=0;
-        this.dic= {
-            //"channel_span":100,
-            //"scale_adjust":0,
-            //"offset_load":0,
-            //"s":15,
-            //"time":15,
-            "begin_pos":0.1,
-            "pos":0.1,
-            "vel":0.02,
-            "acc":0.3,
-            "dec":-0.3,
-            "ab":0
-        };
-        this.MoveEAP_Dic={
-            "begin_pos":0.1,
-            "pos":0.1,
-            "vel":0.02,
-            "acc":0.3,
-            "dec":-0.3,
-            "ab":0
-        }
-        this.MoveEA_dic={
-            "s":15,
-            "time":15,
-        }
-    }
-
-    function CollectData(ch) {
-        var press_1;
-        if (pressList.length>0){
-            press_1=pressList[ch];
-
-        } else {
-            press_1=new PressProcess();
-        }
-
-        press_1.ch_index=ch;
-        for(var key in press_1.dic){
-            press_1.dic[key]=document.getElementById("ch"+(ch+1).toString()+"_"+key).value;
-            console.log(press_1.dic[key]);
-        }
-
-    }
-
-    function UpdateUIData (ch) {
-        var press_1=new PressProcess();
-        press_1=pressList[ch];
-        for (var key in press_1.dic){
-            //console.log(key);
-            //console.log("ch"+(ch+1).toString()+"_"+key);
-            document.getElementById("ch"+(ch+1).toString()+"_"+key).value=press_1.dic[key];
-        }
-
-    }
-
-    document.getElementById("getXml").onclick=function(){
+    document.getElementById("serverIP").onchange=function(){
         var str=document.getElementById("serverIP").value;
         if (str!=""&&str!=null){
             serverIP="ws://"+str+":5866";
             console.log(serverIP);
         }
+    }
+
+    document.getElementById("getXml").onclick=function(){
+        $("#InputTable_Temp").show();
         SendCmd("2&1&0&0&0&GetXml --check_none");
     }
-    var xmlDoc;
+
     function GetXmlDoc(data){
         console.log(data);
         var parser=new DOMParser();
         xmlDoc=parser.parseFromString(data,"text/xml");
-        var CH_list=xmlDoc.getElementsByTagName("CmdList");
-        //console.log("ch no:" + CH_list.length);
-        for (var i=0;i<CH_list.length;i++){
-            var cmdList=CH_list[i].getElementsByTagName("cmd");
-            for (var j=0;j<setupList.length;j++){
+        for (var i=0;i<setupList.length;i++){
+            var CH_list=xmlDoc.getElementsByTagName("CmdList");
+            var para_value=[];
+            var ui_id=[];
+            for (var j=0;j<CH_list.length;j++){
+                var cmdList=CH_list[j].getElementsByTagName("cmd");
                 //获得命令
-                var cmd_toSet=cmdList[setupList[j].cmdNum-1].childNodes[0].nodeValue;
+                var cmd_toSet=cmdList[setupList[i].cmdNum-1].childNodes[0].nodeValue;
                 //解析命令得到参数值
-                var para_value;
+
                 var cmd_paraList=cmd_toSet.split(" ");
                 for (var k = 0; k < cmd_paraList.length;k++){
-                    if (cmd_paraList[k].indexOf("--"+setupList[j].paraName+"=")>-1 || cmd_paraList[k].indexOf("-"+setupList[j].paraName_abra+"=")>-1){
-                        para_value=cmd_paraList[k].split("=")[1];
+                    if (cmd_paraList[k].indexOf("--"+setupList[i].paraName+"=")>-1 || cmd_paraList[k].indexOf("-"+setupList[i].paraName_abra+"=")>-1){
+                        para_value[j]=cmd_paraList[k].split("=")[1];
                     }
                 }
-                //生成UI并赋值
-                var ui_id="ch"+(i+1).toString()+"_"+setupList[j].cmdNum+"_"+setupList[j].cmdName+"_"+setupList[j].paraName;
-
-
+                ui_id[j]="ch"+(j+1).toString()+"_"+setupList[i].cmdNum+"_"+setupList[i].cmdName+"_"+setupList[i].paraName;
             }
-
-
-            var pressProcess_1=new PressProcess();
-
-            for (var j=0;j<cmdList.length;j++){
-                pressProcess_1.cmdList[j]=cmdList[j].childNodes[0].nodeValue;
-                //console.log(pressProcess_1.cmdList[j]);
-                if (pressProcess_1.cmdList[j].indexOf("moveEAP")>-1){
-                    //console.log("find moveEA");
-                    var para_list=pressProcess_1.cmdList[j].split(" ");
-                    for (var k=0;k<para_list.length;k++){
-                        //console.log(k);
-                        if (para_list[k].indexOf("--")>-1){
-                            var str_list=para_list[k].split("=");
-                            //console.log(str_list[0]+"---"+str_list[1]);
-                            var key=str_list[0].replace("--","");
-                            pressProcess_1.dic[key]=str_list[1];
-                        }
-                    }
-                    pressProcess_1.cmdList[j]="moveEAP";
-                    if(pressProcess_1.dic["pos"]<0){
-                        pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
-                    }
-                }
-            }
-            pressList[i]=pressProcess_1;
-            UpdateUIData(i);
+            //生成UI并赋值
+            var processName=setupList[i].processName+"_"+setupList[i].paraName.toUpperCase();
+            var tr="<tr><td>"+processName+"</td><td><input value="+para_value[0]+" id='"+ui_id[0]+"'/></td><td><input value="+para_value[1]+" id='"+ui_id[1]+"'/></td><td><input value="+para_value[2]+" id='"+ui_id[2]+"'/></td></tr>"
+            //console.log(tr);
+            $("#InputTable_Temp").append(tr);
         }
-        console.log((new XMLSerializer()).serializeToString(xmlDoc));
     }
-
-    // function GetXmlDoc(data){
-    //     console.log(data);
-    //     var parser=new DOMParser();
-    //     xmlDoc=parser.parseFromString(data,"text/xml");
-    //     var CH_list=xmlDoc.getElementsByTagName("CmdList");
-    //     //console.log("ch no:" + CH_list.length);
-    //     for (var i=0;i<CH_list.length;i++){
-    //         var pressProcess_1=new PressProcess();
-    //         var cmdList=CH_list[i].getElementsByTagName("cmd");
-    //         for (var j=0;j<cmdList.length;j++){
-    //             pressProcess_1.cmdList[j]=cmdList[j].childNodes[0].nodeValue;
-    //             //console.log(pressProcess_1.cmdList[j]);
-    //             if (pressProcess_1.cmdList[j].indexOf("moveEAP")>-1){
-    //                 //console.log("find moveEA");
-    //                 var para_list=pressProcess_1.cmdList[j].split(" ");
-    //                 for (var k=0;k<para_list.length;k++){
-    //                     //console.log(k);
-    //                     if (para_list[k].indexOf("--")>-1){
-    //                         var str_list=para_list[k].split("=");
-    //                         //console.log(str_list[0]+"---"+str_list[1]);
-    //                         var key=str_list[0].replace("--","");
-    //                         pressProcess_1.dic[key]=str_list[1];
-    //                     }
-    //                 }
-    //                 pressProcess_1.cmdList[j]="moveEAP";
-	// 	            if(pressProcess_1.dic["pos"]<0){
-	// 				pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
-	// 	                }
-    //             }
-    //         }
-    //         pressList[i]=pressProcess_1;
-    //         UpdateUIData(i);
-    //     }
-    //     console.log((new XMLSerializer()).serializeToString(xmlDoc));
-    // }
-
 
     document.getElementById("saveXml").onclick= function() {
 
-         for (var i=0;i<3;i++){
-             CollectData(i);
-         }
-         var CH_list=xmlDoc.getElementsByTagName("CmdList");
-         //console.log("ch no:" + CH_list.length);
-         for (var i=0;i<CH_list.length;i++) {
-             var pressProcess_1 =pressList[i];
-             var cmdList = CH_list[i].getElementsByTagName("cmd");
-             for (var j = 0; j < cmdList.length; j++) {
-        
-                 if (pressList[i].cmdList[j].indexOf("moveEA")>-1) {
-                     var newParaExpress="";
-                     for (var key in pressProcess_1.dic){
-                         newParaExpress+=" --"+key+"="+pressProcess_1.dic[key];
-                     }
-			            pressProcess_1.dic["pos"]=-1*pressProcess_1.dic["pos"];
-                     cmdList[j].childNodes[0].nodeValue=pressList[i].cmdList[j]+newParaExpress;
-                     //cmdList[j].childNodes[0].nodeValue=pressList[i].cmdList[j]+" --offset_load="+pressProcess_1.offset_load+" --channel_span="+pressProcess_1.channel_span;
-                     //console.log()
-        
-                 }
-                 else {
-                     cmdList[j].childNodes[0].nodeValue=pressList[i].cmdList[j];
-                 }
-             }
-         }
+        for (var i=0;i<setupList.length;i++){
+            var CH_list=xmlDoc.getElementsByTagName("CmdList");
+            var para_value=[];
+            var ui_id=[];
+            for (var j=0;j<CH_list.length;j++){
+                //获得UI值
+                ui_id[j]="ch"+(j+1).toString()+"_"+setupList[i].cmdNum+"_"+setupList[i].cmdName+"_"+setupList[i].paraName;
+                console.log(ui_id[j]);
+
+                para_value[j]=$("#"+ui_id[j]).val();
+                console.log(para_value[j]);
+
+
+                var cmdList=CH_list[j].getElementsByTagName("cmd");
+                //获得命令
+                var cmd_toSet=cmdList[setupList[i].cmdNum-1].childNodes[0].nodeValue;
+                //解析命令并赋值新参数
+                var cmd_toSet_new="";
+
+                var cmd_paraList=cmd_toSet.split(" ");
+                for (var k = 0; k < cmd_paraList.length;k++){
+                    if (cmd_paraList[k].indexOf("--"+setupList[i].paraName+"=")>-1 || cmd_paraList[k].indexOf("-"+setupList[i].paraName_abra+"=")>-1){
+                        //para_value[j]=cmd_paraList[k].split("=")[1];
+                        var newParaStr=cmd_paraList[k].split("=")[0]+"="+para_value[j];
+                        cmd_paraList[k]=newParaStr;
+                    }
+                    cmd_toSet_new+=cmd_paraList[k]+" ";
+                }
+                cmdList[setupList[i].cmdNum-1].childNodes[0].nodeValue=cmd_toSet_new;
+                console.log(cmd_toSet_new);
+            }
+        }
+
         var text = (new XMLSerializer()).serializeToString(xmlDoc);
         console.log(text);
         SendCmd("3&1&0&0&0&"+text);
 
-
-
         ws.close();
         var url="PressMonitor.html?ServerIp="+escape( serverIP);
         location.href=url;
-        // window.opener=null;
-        // window.open(' ','_self',' ');
-        // window.close();
-
 
     }
 
 </script>
+
+
 <script type="text/javascript">
-   // PackBotCmd("1&1&0&0&0&Read --check_none");
+
     var ws;
-    //建立websocket连接
+
     function PackBotCmd(str) {
         //1&1&0&0&0&Read --check_none
         var strArray=str.split("&");
@@ -661,9 +551,8 @@
 
         }
     }
+
     buildWS();
-
-
 
     function SendCmd(cmd){
         switch (ws.readyState) {
@@ -684,14 +573,8 @@
         }
     }
 
-    // document.getElementById("run").onclick=function () {
-    //     buildWS();
-    //     SendRun();
-    //     //window.location.href="PressMonitor.html";
-    //     var url="PressMonitor.html?ServerIp="+escape( serverIP);
-    //     location.href=url;
-    // }
 </script>
+
 
 <script type="text/javascript">
     $("#getXml").button();
