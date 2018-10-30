@@ -131,13 +131,18 @@
 <button id="stop">Stop</button>
 <input id="serverIP" placeholder="Enter server ip"/>
 <div id="main" style="width: 960px; height: 600px; margin-left: auto; margin-right: auto; margin-top: 10px">
-    <div id="chart_dom" style="width: 50%;height: 60%; float: left"></div>
-    <div id="gameContainer" style="width: 50%;height: 60%; float:left"></div>
-    <div id="loader">
-        <img class="logo" src="logo.png">
-        <div class="spinner"></div>
-        <div class="progress"><div class="full"></div></div>
+    <div id="chart_dom" style="width: 50%;height: 60%; float: left;background-color: beige;"></div>
+    <div style="width: 50%;height: 60%; float:left">
+        <div id="gameContainer"  style="width: 100%;height: 100%">
+
+        </div>
+        <div id="loader" style="width: 50%;height: 100%;left: auto">
+            <!--<img class="logo" src="logo.png">-->
+            <div class="spinner" style="width: 50%;float: left"></div>
+            <div class="progress" style="width: 50%;float: left"><div class="full" ></div></div>
+        </div>
     </div>
+
     <div id="showResult"style="width: 50%;height: 40%; float:left" >
         <fieldset>
             <legend>Check Result</legend>
@@ -513,7 +518,7 @@ console.log(serverIP);
                 // }
             ]
         });
-    }, 500);;
+    }, 500);
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
